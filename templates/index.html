@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CGPA Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+            color: #333;
+        }
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+        }
+        form {
+            margin-top: 20px;
+        }
+        .input-group {
+            display: flex;
+            margin-bottom: 10px;
+        }
+        .input-group label {
+            flex: 1;
+        }
+        .input-group input {
+            flex: 2;
+            padding: 5px;
+        }
+        button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+        .result {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 1.2em;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>CGPA Calculator</h1>
+        <form action="/calculate" method="POST">
+            <div id="courses">
+                <div class="input-group">
+                    <label for="grades">Grade:</label>
+                    <input type="number" name="grades" step="0.01" required>
+                    <label for="credits">Credit:</label>
+                    <input type="number" name="credits" step="0.01" required>
+                </div>
+            </div><br><br>
+            <button type="button" onclick="addCourse()">Add Another Course</button><br><br>
+            <button type="submit">Calculate CGPA</button>
+        </form><br>
+        
+        {% if cgpa %}
+        <div class="result">
+            <p style="color: gold;">Your CGPA is: <b>{{ cgpa }}<b></p>
+        </div>
+        {% endif %}
+
+        {% if error %}
+        <div class="result">
+            <p style="color: red;">Error: {{ error }}</p>
+        </div>
+        {% endif %}
+    </div>
+
+    <script>
+        function addCourse() {
+            const coursesDiv = document.getElementById('courses');
+            const inputGroup = document.createElement('div');
+            inputGroup.className = 'input-group';
+
+            inputGroup.innerHTML = `
+                <label for="grades">Grade:</label>
+                <input type="number" name="grades" step="0.01" required>
+                <label for="credits">Credit:</label>
+                <input type="number" name="credits" step="0.01" required>
+            `;
+
+            coursesDiv.appendChild(inputGroup);
+        }
+    </script>
+</body>
+</html>
